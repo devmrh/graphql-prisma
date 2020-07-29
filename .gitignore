@@ -1,0 +1,10 @@
+logs
+*.log
+npm-debg.log*
+pids
+*.pid
+*.seed
+build/Release
+**/node_modules
+.Ds_Store
+**/.next
