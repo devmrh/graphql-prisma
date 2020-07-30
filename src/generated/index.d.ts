@@ -78,6 +78,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     getUser: NexusGenRootTypes['User'] | null; // User
+    getUsers: NexusGenRootTypes['User'][]; // [User!]!
     me: NexusGenRootTypes['User']; // User!
   }
   Subscription: { // field return type

@@ -64,9 +64,7 @@ export const createContext = (ctx: any): Context => {
       }else{
         userId = verifiedToken.userId
       }
-
   } catch (error) {
-    console.log(error);
     userId = -1;
   }
 

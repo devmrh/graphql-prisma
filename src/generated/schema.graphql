@@ -25,6 +25,7 @@ type Post {
 
 type Query {
   getUser(id: Int): User
+  getUsers: [User!]!
   me: User!
 }
 

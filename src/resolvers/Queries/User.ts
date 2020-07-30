@@ -23,3 +23,11 @@ export const user = queryField('getUser', {
     })
   },
 })
+
+export const users = queryField('getUsers', {
+  type: 'User',
+  list: true,
+  resolve: (_parent,_, ctx) => {
+    return ctx.prisma.user.findMany()
+  },
+})
