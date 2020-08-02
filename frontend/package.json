@@ -4,12 +4,17 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build:css": "postcss src/tailwind.css -o index.css",
+    "watch:css": "postcss src/tailwind.css -o index.css",
     "dev": "next",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "apollo-boost": "^0.4.9",
     "graphql": "^15.3.0",
     "next": "^9.5.1",
@@ -17,11 +22,23 @@
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "styled-components": "^5.1.1"
+    "react-redux": "^7.2.1",
+    "react-spring": "^8.0.27",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "styled-components": "^5.1.1",
+    "styled-media-query": "^2.1.2"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.3.0",
     "@types/react": "^16.9.43",
     "@types/styled-components": "^5.1.1",
-    "babel-plugin-styled-components": "^1.11.0"
+    "babel-plugin-inline-react-svg": "^1.1.1",
+    "babel-plugin-macros": "^2.8.0",
+    "babel-plugin-styled-components": "^1.11.0",
+    "postcss-cli": "^7.1.1",
+    "postcss-import": "^12.0.1",
+    "tailwind.macro": "^1.0.0-alpha.10",
+    "tailwindcss": "^1.6.0"
   }
 }
