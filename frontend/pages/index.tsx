@@ -11,6 +11,14 @@ import { initializeStore } from '../lib/redux';
 import { initializeApollo } from '../lib/apollo';
 import { useDispatch } from 'react-redux';
 
+import { wrapper } from '../store/store';
+import { addCount } from '../store/count/action';
+import { addPosts } from '../store/count/action';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import  AddCount  from '../components/AddCount';
+
 // const HeaderBox = styled.div`
 //     ${tw`bg-black text-white`};
 //     ${media.lessThan('medium')`
@@ -38,9 +46,9 @@ align-items: center;
 margin: 0 auto;
 `;
 
-const Index = () => {
+const Index = ( props ) => {
 
-  const [status, setStatus] = useState(null);
+  //const [status, setStatus] = useState(null);
 
 
 
@@ -65,6 +73,10 @@ const Index = () => {
 
   return (
   <div className="">
+
+
+     <AddCount />
+
       <StyledForm>
       <form>
         <input type="text" placeholder="Full name" />
@@ -75,44 +87,28 @@ const Index = () => {
       </StyledForm>
       <h1>hello from graph ql frontend asdasdasdas</h1>
       <p>a graph ql frontend</p>
-      <UserList users={ users?.data?.getUsers || []}></UserList>
+      {/* <UserList users={ users?.data?.getUsers || []}></UserList> */}
 
   </div>
 
   )
 }
 
-export async function getStaticProps(){
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+ // store.dispatch(serverRenderClock(true))
+  store.dispatch(addCount())
+  //store.dispatch(addPosts())
+})
 
-  const reduxStore = initializeStore();
-  const { dispatch } = reduxStore
-
-  const apolloClient = initializeApollo()
-
-
-
-  // dispatch({
-  //   type: 'ADD_POSTS',
-  //   posts: status.posts
-  // })
-
-  // await apolloClient.query({
-  //   query: User_Query,
-  // })
-
+const mapDispatchToProps = (dispatch) => {
   return {
-    props: {
-      initialReduxState: reduxStore.getState(),
-      initialApolloState: apolloClient.cache.extract(),
-    },
-    revalidate: 1,
+    addCount: bindActionCreators(addCount, dispatch),
+    addPosts: bindActionCreators(addPosts, dispatch),
   }
-
-
-
 }
 
+export default connect(null, mapDispatchToProps)(Index)
 
 
 
-export default Index;
+//export default Index;

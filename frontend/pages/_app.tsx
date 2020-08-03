@@ -12,7 +12,7 @@ import React from "react";
 import { useApollo } from '../lib/apollo'
 import { useStore } from '../lib/redux'
 import withApollo from "../hooks/withApollo";
-
+import { wrapper }  from '../store/store';
 //import App from "next/app";
 
 export interface IThem {
@@ -64,11 +64,12 @@ interface IProps {
   apollo: ApolloClient<NormalizedCache>;
 }
 
-export default function App({ Component, pageProps }) {
+
+const App = ({ Component, pageProps }) => {
  // console.log(pageProps.initialReduxState);
     // instead of creating a client here, we use the rehydrated apollo client provided by our own withApollo provider.
    // const { Component, pageProps } = this.props;
-    const store = useStore(pageProps.initialReduxState)
+   // const store = useStore(pageProps.initialReduxState)
    // console.log(store);
     const apolloClient = useApollo(pageProps.initialApolloState)
    // console.log(apolloClient);
@@ -79,7 +80,7 @@ export default function App({ Component, pageProps }) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         {/* adds the apollo provider to provide it's children with the apollo scope. */}
-        <Provider store={store}>
+        {/* <Provider store={store}> */}
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={theme}>
             <GlobalStyle />
@@ -87,10 +88,12 @@ export default function App({ Component, pageProps }) {
             <Component  {...pageProps} />
           </ThemeProvider>
         </ApolloProvider>
-        </Provider>
+        {/* </Provider> */}
       </React.Fragment>
     );
 
 }
+export default wrapper.withRedux(App)
+
 // before exporting our App we wrapp it with our own withApollo provider to have access to the our rehydrated apollo client.
 //export default withApollo(MyApp);
