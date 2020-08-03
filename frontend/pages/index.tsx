@@ -1,11 +1,15 @@
-import React from 'react';
-
-import { useQuery } from '@apollo/react-hooks';
+import React, { useState } from 'react';
+import UserList from "../components/UserList";
 import { gql } from 'apollo-boost';
-import UserList from "../components/UserList"
-import styled from "styled-components"
-import tw from 'tailwind.macro'
 import media from 'styled-media-query'
+import styled from "styled-components";
+import tw from 'tailwind.macro';
+import { useQuery } from '@apollo/react-hooks';
+import StyledForm  from '../components/StyledForm';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { initializeStore } from '../lib/redux';
+import { initializeApollo } from '../lib/apollo';
+import { useDispatch } from 'react-redux';
 
 // const HeaderBox = styled.div`
 //     ${tw`bg-black text-white`};
@@ -13,46 +17,51 @@ import media from 'styled-media-query'
 //     `};
 // `
 
-const StyledForm = styled.main.attrs({
-  className: "flex flex-col h-screen justify-center items-center bg-gray-100",
-})`
-  & {
-    form {
-      ${tw`bg-white text-center rounded py-8 px-5 shadow max-w-xs`}
-    }
-    input {
-      ${tw`border-gray-300 mb-4 w-full border-solid border rounded py-2 px-4`}
-    }
-    button {
-      ${tw`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-blue-700 rounded`}
-    }
-  }
-`
+import { useSelector, shallowEqual } from 'react-redux'
+
+// const usePosts = () => {
+//   return useSelector(
+//     (state) => ({
+//       posts: state.posts,
+//     }),
+//     shallowEqual
+//   )
+// }
 
 
 const Container = styled.div`
-  max-width: 1010px;
-  padding: 26px 20px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin: 0 auto;
+max-width: 1010px;
+padding: 26px 20px;
+width: 100%;
+display: flex;
+align-items: center;
+margin: 0 auto;
 `;
 
 const Index = () => {
 
+  const [status, setStatus] = useState(null);
+
+
+
+  //const { posts } = usePosts();
 
   const User_Query = gql`
-    query {
-      getUsers {
-        id
-        email
-      }
+  query {
+    getUsers {
+      id
+      email
     }
+  }
 
-  `
+`
+  const users= useQuery(User_Query);
+  const dispatch = useDispatch()
 
-    const users= useQuery(User_Query);
+  dispatch({
+    type: 'ADD_POSTS',
+    posts: users?.data?.getUsers
+  })
 
   return (
   <div className="">
@@ -64,14 +73,46 @@ const Index = () => {
         <button>Sign In</button>
       </form>
       </StyledForm>
-      <h1>hello from graph ql frontend</h1>
+      <h1>hello from graph ql frontend asdasdasdas</h1>
       <p>a graph ql frontend</p>
-      <UserList users={users?.data?.getUsers || []}></UserList>
+      <UserList users={ users?.data?.getUsers || []}></UserList>
 
   </div>
 
   )
 }
+
+export async function getStaticProps(){
+
+  const reduxStore = initializeStore();
+  const { dispatch } = reduxStore
+
+  const apolloClient = initializeApollo()
+
+
+
+  // dispatch({
+  //   type: 'ADD_POSTS',
+  //   posts: status.posts
+  // })
+
+  // await apolloClient.query({
+  //   query: User_Query,
+  // })
+
+  return {
+    props: {
+      initialReduxState: reduxStore.getState(),
+      initialApolloState: apolloClient.cache.extract(),
+    },
+    revalidate: 1,
+  }
+
+
+
+}
+
+
 
 
 export default Index;

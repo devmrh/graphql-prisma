@@ -8,7 +8,7 @@ async function main() {
  const users = await prisma.user.findMany({
    select: {id: true}
  });
-  console.log(users);
+  //console.log(users);
 
   // const users = await prisma.user.create({
   //   data: {

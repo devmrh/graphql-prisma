@@ -4,27 +4,22 @@ import { concatPagination } from '@apollo/client/utilities'
 
 let apolloClient
 
-function createApolloClient() {
+
+
+
+function createApolloClient(initialState) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({
       uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
     }),
-    cache: new InMemoryCache({
-      // typePolicies: {
-      //   Query: {
-      //     fields: {
-      //       allPosts: concatPagination(),
-      //     },
-      //   },
-      // },
-    }),
+    cache: new InMemoryCache().restore(initialState || {})
   })
 }
 
 export function initializeApollo(initialState = null) {
-  const _apolloClient = apolloClient ?? createApolloClient()
+  const _apolloClient = apolloClient ?? createApolloClient(initialState)
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // get hydrated here

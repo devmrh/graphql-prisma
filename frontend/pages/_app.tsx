@@ -1,26 +1,19 @@
-import React from "react";
-
-import App from "next/app";
-
-import Head from "next/head";
+import'../style.css'
 
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 
+import { ApolloClient } from "@apollo/client";
 import { ApolloProvider } from "@apollo/react-hooks";
-
+import Head from "next/head";
+import  Header  from '../components/Layouts/Header';
+import { NormalizedCache } from "apollo-boost";
+import { Provider } from 'react-redux'
+import React from "react";
+import { useApollo } from '../lib/apollo'
+import { useStore } from '../lib/redux'
 import withApollo from "../hooks/withApollo";
 
-import { NormalizedCache } from "apollo-boost";
-
-import { ApolloClient } from "@apollo/client";
-
-import  Header  from '../components/Layouts/Header';
-
-import'../style.css'
-
-import { Provider } from 'react-redux'
-import { useStore } from '../lib/redux'
-import { useApollo } from '../lib/apollo'
+//import App from "next/app";
 
 export interface IThem {
   niceBlack: string;
@@ -71,13 +64,14 @@ interface IProps {
   apollo: ApolloClient<NormalizedCache>;
 }
 
-class MyApp extends App<IProps> {
-  render() {
+export default function App({ Component, pageProps }) {
+ // console.log(pageProps.initialReduxState);
     // instead of creating a client here, we use the rehydrated apollo client provided by our own withApollo provider.
-    const { Component, pageProps } = this.props;
+   // const { Component, pageProps } = this.props;
     const store = useStore(pageProps.initialReduxState)
+   // console.log(store);
     const apolloClient = useApollo(pageProps.initialApolloState)
-
+   // console.log(apolloClient);
     return (
       <React.Fragment>
         <Head>
@@ -96,7 +90,7 @@ class MyApp extends App<IProps> {
         </Provider>
       </React.Fragment>
     );
-  }
+
 }
 // before exporting our App we wrapp it with our own withApollo provider to have access to the our rehydrated apollo client.
-export default withApollo(MyApp);
+//export default withApollo(MyApp);

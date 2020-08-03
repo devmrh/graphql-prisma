@@ -21,7 +21,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx", "lib/redux.js"
+    "**/*.tsx", "lib/redux.ts"
   ],
   "exclude": [
     "node_modules"

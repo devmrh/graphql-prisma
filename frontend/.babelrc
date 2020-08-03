@@ -3,6 +3,7 @@
     "next/babel"
   ],
   "plugins": [
+    "macros",
     "inline-react-svg",
     [
       "styled-components",
@@ -11,8 +12,7 @@
         "displayName": true,
         "preprocess": false
       }
-    ],
-    "macros"
+    ]
   ]
 }
 
