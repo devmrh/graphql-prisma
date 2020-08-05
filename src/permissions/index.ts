@@ -4,6 +4,7 @@ import { rules } from './rules';
 export const permissions = shield({
   Query: {
     me: rules.isAuthenticatedUser,
+    getUsers: allow,
     '*': allow
   },
   Mutation: {

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserList from "../components/UserList";
 import { gql } from 'apollo-boost';
 import media from 'styled-media-query'
 import styled from "styled-components";
 import tw from 'tailwind.macro';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import StyledForm  from '../components/StyledForm';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { initializeStore } from '../lib/redux';
@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { wrapper } from '../store/store';
 import { addCount } from '../store/count/action';
 import { addPosts } from '../store/count/action';
+import { getPosts } from '../store/count/action';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -46,29 +47,29 @@ align-items: center;
 margin: 0 auto;
 `;
 
-const Index = ( props ) => {
-
-  //const [status, setStatus] = useState(null);
+const Index = ( props  ) => {
+console.log("haaaaaaaaaaaaaaaaaa",props);
+ // const [status, setStatus] = useState({posts: []});
 
 
 
   //const { posts } = usePosts();
 
-  const User_Query = gql`
-  query {
-    getUsers {
-      id
-      email
-    }
-  }
 
-`
-  const users= useQuery(User_Query);
+
+
+//   const dispatch = useDispatch()
+//   dispatch({
+// type: 'GET_POSTS',
+// })
+
+
+
+  // const users= useQuery(User_Query);
   const dispatch = useDispatch()
 
   dispatch({
-    type: 'ADD_POSTS',
-    posts: users?.data?.getUsers
+    type: 'GET_POSTS'
   })
 
   return (
@@ -76,7 +77,7 @@ const Index = ( props ) => {
 
 
      <AddCount />
-
+  aaaa<div></div>
       <StyledForm>
       <form>
         <input type="text" placeholder="Full name" />
@@ -97,17 +98,22 @@ const Index = ( props ) => {
 export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
  // store.dispatch(serverRenderClock(true))
   store.dispatch(addCount())
-  //store.dispatch(addPosts())
+  store.dispatch(getPosts())
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addCount: bindActionCreators(addCount, dispatch),
-    addPosts: bindActionCreators(addPosts, dispatch),
+    getPosts: bindActionCreators(getPosts, dispatch),
   }
 }
 
-export default connect(null, mapDispatchToProps)(Index)
+const mapStateToProps = (state) => ({
+  posts: state.count.posts,
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index)
 
 
 

@@ -20,7 +20,7 @@ import { permissions } from './permissions';
 // }
 
 const server = new ApolloServer({
-  schema: applyMiddleware(schema, permissions),
+  schema: applyMiddleware(schema),
   context: createContext,
   tracing: true
 

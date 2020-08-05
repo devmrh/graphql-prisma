@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 import thunkMiddleware from 'redux-thunk'
 import count from './count/reducer'
+import { client } from '../lib/apollo';
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -29,7 +30,7 @@ const reducer = (state, action) => {
 }
 
 const initStore = () => {
-  return createStore(reducer, bindMiddleware([thunkMiddleware]))
+  return createStore(reducer, bindMiddleware([thunkMiddleware.withExtraArgument(client)]))
 }
 
 export const wrapper = createWrapper(initStore)
