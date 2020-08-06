@@ -5355,6 +5355,11 @@ randomfill@^1.0.3:
     randombytes "^2.0.5"
     safe-buffer "^5.1.0"
 
+react-apollo-graphql@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-apollo-graphql/-/react-apollo-graphql-1.0.2.tgz#c37965c842e352bb0ab969092ee3e1a359401edd"
+  integrity sha512-nu0FBIZ0+TJt2y16w6rjfhB/DPJ3OVgnr78PvUkG8/WoqKarBJk2iwxAFHwpN+h2XwVVuqIlXK9x9AE3davgsA==
+
 react-dom@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
