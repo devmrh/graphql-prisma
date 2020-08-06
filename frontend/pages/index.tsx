@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import User,{ ALL_USERS_QUERY } from '../components/User';
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+
+import AddCount from "../components/AddCount";
+import StyledForm from "../components/StyledForm";
 import UserList from "../components/UserList";
-import { gql } from "apollo-boost";
+import { addCount } from "../store/count/action";
+import { addPosts } from "../store/count/action";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { getUsers } from "../store/count/action";
+import { initializeApollo } from "../lib/apollo";
+import { initializeStore } from "../lib/redux";
 import media from "styled-media-query";
 import styled from "styled-components";
 import tw from "tailwind.macro";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
-import StyledForm from "../components/StyledForm";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { initializeStore } from "../lib/redux";
-import { initializeApollo } from "../lib/apollo";
-import { useDispatch } from "react-redux";
-import { wrapper, initStore } from "../store/store";
-import { addCount } from "../store/count/action";
-import { addPosts } from "../store/count/action";
-import { getUsers } from "../store/count/action";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import AddCount from "../components/AddCount";
-import { useSelector, shallowEqual } from "react-redux";
+import { wrapper } from "../store/store";
 
 // const HeaderBox = styled.div`
 //     ${tw`bg-black text-white`};
@@ -34,16 +33,16 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const Index = (props) => {
+const Index = () => {
   // const [status, setStatus] = useState({posts: []});
   //   const dispatch = useDispatch()
   //   dispatch({
   //     type: 'GET_POSTS',
   //  })
 
-  useEffect(() => {
-    props.getUsers();
-  }, [props]);
+  // useEffect(() => {
+  //   props.getUsers();
+  // }, [props]);
 
   return (
     <div className="">
@@ -59,46 +58,31 @@ const Index = (props) => {
       </StyledForm>
       <h1>hello from graph ql frontend asdasdasdas</h1>
       <p>a graph ql frontend</p>
-      <UserList users={ props.users || []}></UserList>
+      <User/>
+      {/* <UserList users={ props.users || []}></UserList> */}
     </div>
   );
 };
 
-// export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
-//   // store.dispatch(serverRenderClock(true))
-//   //store.dispatch(addCount())
-//   store.dispatch(getUsers());
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+  // store.dispatch(serverRenderClock(true))
+  //store.dispatch(addCount())
+  //store.dispatch(getUsers());
+  //const reduxStore = initStore()
+  const apolloClient = initializeApollo()
 
-//   const reduxStore = initStore()
-//   const apolloClient = initializeApollo()
-//   const { dispatch } = reduxStore
+  await apolloClient.query({
+    query: ALL_USERS_QUERY
+  })
 
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
+    revalidate: 1,
+  }
 
-//   const User_Query = gql`
-//     query {
-//       getUsers {
-//         id
-//         email
-//       }
-//     }
-//   `;
-
-
-//   await apolloClient.query({
-//     query: User_Query
-//   })
-
-//   return {
-//     props: {
-//       initialApolloState: apolloClient.cache.extract(),
-//     },
-//     revalidate: 1,
-//   }
-
-// });
-
-
-
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {

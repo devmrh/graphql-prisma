@@ -1,89 +1,44 @@
-import {useEffect, useState} from 'react';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { getUsers } from "../store/count/action";
+import { wrapper } from "../store/store";
 
-import { useSelector, shallowEqual } from 'react-redux'
-import { initializeApollo } from '../lib/apollo';
-import { initializeStore } from '../lib/redux';
+function About({ users,getUsers }) {
 
-const useUser = () => {
-  return useSelector(
-    (state) => ({
-      posts: state.posts,
-    }),
-    shallowEqual
-  )
-}
-
-function About() {
-  const { posts } = useUser()
-
-  console.log(posts);
-
-  // useEffect(() => {
-  //   // code to run on component mount
-  // }, [])
-
-  // const [posts, setPosts] = useState(null);
-
-  // useEffect(async () => {
-  //   const res = await fetch('https://jsonplaceholder.typicode.com/posts')
-  //   const postss = await res.json()
-
-  //   setPosts(postss)
-
-  // }, []);
-
-
+  getUsers()
   return (
     <ul>
-      {[].map((post) => (
+      {users.map((post) => (
+        <>
         <li>{post.id}</li>
+        <li>{post.email}</li>
+
+        </>
       ))}
     </ul>
   )
 
 }
 
-
-// export async function getStaticProps() {
-//   // Call an external API endpoint to get posts
-//   const res = await fetch('https://jsonplaceholder.typicode.com/posts')
-//   const posts = await res.json()
-
-//   // By returning { props: posts }, the Blog component
-//   // will receive `posts` as a prop at build time
-//   return {
-//     props: {
-//       posts,
-//     },
-//   }
-// }
-// export async function getStaticProps(){
-
-//   const reduxStore = initializeStore();
-//   const { dispatch } = reduxStore
-
-//   const apolloClient = initializeApollo()
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+  // store.dispatch(serverRenderClock(true))
+  //store.dispatch(addCount())
+  store.dispatch(getUsers());
 
 
+});
 
-//   // dispatch({
-//   //   type: 'ADD_POSTS',
-//   //   posts: status.posts
-//   // })
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUsers: bindActionCreators(getUsers, dispatch),
+  };
+};
 
-//   // await apolloClient.query({
-//   //   query: User_Query,
-//   // })
-
-//   return {
-//     props: {
-//       initialReduxState: reduxStore.getState(),
-//       initialApolloState: apolloClient.cache.extract(),
-//     },
-//     revalidate: 1,
-//   }
-
+const mapStateToProps = (state) => ({
+  users: state.count.users,
+})
 
 
 // }
-export default About
+//export default About
+export default connect(mapStateToProps, mapDispatchToProps)(About);

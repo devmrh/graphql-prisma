@@ -17,6 +17,11 @@ export default function reducer(state = countInitialState, action){
       return Object.assign({}, state, {
         posts: action.posts
       })
+    case countActionTypes.SET_USERS:
+     // console.log("look at me", action.payload);
+      return Object.assign({}, state, {
+        users: action.payload
+      })
     case countActionTypes.GET_USERS:
       // return {
       //   ...state,

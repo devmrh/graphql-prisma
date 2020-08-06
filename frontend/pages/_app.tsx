@@ -12,9 +12,10 @@ import React from "react";
 import { useApollo } from '../lib/apollo'
 import { useStore } from '../lib/redux'
 import withApollo from "../hooks/withApollo";
-import { wrapper }  from '../store/store';
 //import App from "next/app";
 import withRedux from 'next-redux-wrapper';
+import { wrapper }  from '../store/store';
+
 export interface IThem {
   niceBlack: string;
 }
@@ -65,22 +66,14 @@ interface IProps {
 }
 
 
-const App = ({ Component, pageProps,apollo }) => {
- // console.log(store);
- // console.log(pageProps.initialReduxState);
-    // instead of creating a client here, we use the rehydrated apollo client provided by our own withApollo provider.
-   // const { Component, pageProps } = this.props;
+const App = ({ Component, pageProps }) => {
    //const store = useStore(pageProps.initialReduxState)
-   // console.log(store);
-
-  console.log(pageProps);
-
     const apolloClient = useApollo(pageProps.initialApolloState)
    // console.log(apolloClient);
     return (
       <React.Fragment>
         <Head>
-          <title>GraphQL Job Board</title>
+          <title>GraphQL</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         {/* adds the apollo provider to provide it's children with the apollo scope. */}
@@ -97,28 +90,6 @@ const App = ({ Component, pageProps,apollo }) => {
     );
 
 }
-
-// App.getInitialProps = async appContext => {
-//   const { Component, ctx } = appContext;
-//   const appProps = await App.getInitialProps(appContext);
-//   const pageProps = Component.getInitialProps
-//     ? await Component.getInitialProps(ctx)
-//     : {};
-
-//   const allProps = {
-//     ...appProps,
-//     ...pageProps
-//   };
-//   return { ...allProps };
-// };
-//const store = useStore(pageProps.initialReduxState)
-
-
-// const makeStore = initialState => {
-//   return initStore()
-// };
-
-//const makeStore = () => useStore();
 //export default wrapper.withRedux(App)
 export default wrapper.withRedux(App);
 // before exporting our App we wrapp it with our own withApollo provider to have access to the our rehydrated apollo client.

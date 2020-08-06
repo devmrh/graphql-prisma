@@ -1,11 +1,13 @@
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+
 import { gql } from "apollo-boost";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { useApolloClient } from "@apollo/react-hooks";
 
 export const countActionTypes = {
   ADD: "ADD",
   ADD_POST: "ADD_POSTS",
   GET_USERS: "GET_USERS",
+  SET_USERS: "SET_USERS"
 };
 
 export const addCount = () => (dispatch) => {
@@ -33,3 +35,9 @@ export const getUsers = () => async (dispatch, getState, client) => {
     });
   });
 };
+
+export const setUsers = (data) => async (dispatch) => {
+  return dispatch({ type: countActionTypes.SET_USERS, payload: data });
+
+}
+

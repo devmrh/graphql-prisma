@@ -1,10 +1,8 @@
-import { useMemo } from 'react'
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
-import { concatPagination } from '@apollo/client/utilities'
+
+import { useMemo } from 'react'
 
 let apolloClient
-
-
 
 
 function createApolloClient(initialState) {
