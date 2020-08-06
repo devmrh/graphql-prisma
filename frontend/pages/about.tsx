@@ -1,14 +1,22 @@
+import { connect, useSelector } from "react-redux";
+
+import {NextPage} from 'next';
 import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import { getUsers } from "../store/count/action";
+import { useEffect } from "react";
 import { wrapper } from "../store/store";
 
-function About({ users,getUsers }) {
+const About: NextPage = () => {
 
-  getUsers()
+  //   useEffect(() => {
+  //   props.getUsers();
+  // }, [props]);
+  //getUsers()
+  const aa = useSelector(state => state);
+  console.log(aa);
   return (
     <ul>
-      {users.map((post) => (
+      {aa?.count?.users?.map((post) => (
         <>
         <li>{post.id}</li>
         <li>{post.email}</li>
@@ -28,17 +36,17 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
 
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getUsers: bindActionCreators(getUsers, dispatch),
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getUsers: bindActionCreators(getUsers, dispatch),
+//   };
+// };
 
-const mapStateToProps = (state) => ({
-  users: state.count.users,
-})
+// const mapStateToProps = (state) => ({
+//   users: state.count.users,
+// })
 
 
 // }
 //export default About
-export default connect(mapStateToProps, mapDispatchToProps)(About);
+export default About;
