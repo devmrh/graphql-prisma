@@ -21,7 +21,7 @@ const UserList = ({ users }: IProps) => {
   const listItems = users.map((user) => {
     return (
       <ListItem key={user.id}>
-        {user.id} by {user.email}
+        {user.id} by <span className="fucky">{user.email}</span>
       </ListItem>
     )
   })

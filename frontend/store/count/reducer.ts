@@ -2,7 +2,7 @@ import { countActionTypes } from './action';
 
 const countInitialState = {
   count: 0,
-  posts: []
+  users: []
 }
 
 
@@ -17,21 +17,16 @@ export default function reducer(state = countInitialState, action){
       return Object.assign({}, state, {
         posts: action.posts
       })
-    case countActionTypes.GET_POSTS:
-      console.log("im fuck", action?.payload);
+    case countActionTypes.GET_USERS:
       // return {
       //   ...state,
       //   posts: [action.payload, ...state.posts]
       // };
-      if(action.payload != null || action.payload !== "undefined"){
-        console.log("catrched", action.payload);
-        return Object.assign({}, state, {
-          posts: action.payload
-        })
+      return Object.assign({}, state, {
+        users: action.payload
+      })
 
-      }
-
-     default:
+    default:
         return state;
   }
 }
