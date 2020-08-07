@@ -1,14 +1,14 @@
 import {AnyAction} from 'redux';
 import {HYDRATE} from 'next-redux-wrapper';
-import {client} from '../../lib/apollo';
-import { countActionTypes } from './action';
+import { countActionTypes } from '../actions/types';
+
 export interface State {
     app: string;
     page: string;
     users: any
 }
 
-const reducer = (state: State = {app: 'init', page: 'init', users: {}}, action: AnyAction) => {
+export const countReducer = (state: State = {app: 'init', page: 'init', users: {}}, action: AnyAction) =>  {
     switch (action.type) {
         case HYDRATE:
             if (action.payload.app === 'init') delete action.payload.app;
@@ -18,14 +18,14 @@ const reducer = (state: State = {app: 'init', page: 'init', users: {}}, action: 
             return {...state, app: action.payload};
         case 'PAGE':
             return {...state, page: action.payload};
-        case 'GET_USERS':
+        case countActionTypes.GET_USERS:
             return {...state, users: action.payload};
         default:
             return state;
     }
 };
 
-export default reducer;
+///export default count;
 
 
 
