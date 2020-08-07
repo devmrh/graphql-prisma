@@ -19,6 +19,7 @@ export const addPosts = () => (dispatch) => {
 };
 
 export const getUsers = () => async (dispatch, getState, client) => {
+  //console.log("chcekted");
   const User_Query = gql`
     query {
       getUsers {

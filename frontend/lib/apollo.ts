@@ -5,8 +5,18 @@ import { useMemo } from 'react'
 let apolloClient
 
 
-function createApolloClient(initialState) {
-  return new ApolloClient({
+// function createApolloClient(initialState) {
+//   return new ApolloClient({
+//     ssrMode: typeof window === 'undefined',
+//     link: new HttpLink({
+//       uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
+//       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+//     }),
+//     cache: new InMemoryCache().restore(initialState || {})
+//   })
+// }
+export const client = (initialState) =>
+  new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({
       uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
@@ -14,20 +24,10 @@ function createApolloClient(initialState) {
     }),
     cache: new InMemoryCache().restore(initialState || {})
   })
-}
-export const client =
-  new ApolloClient({
-    ssrMode: typeof window === 'undefined',
-    link: new HttpLink({
-      uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
-      credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
-    }),
-    cache: new InMemoryCache().restore({})
-  })
 
 
 export function initializeApollo(initialState = null) {
-  const _apolloClient = apolloClient ?? createApolloClient(initialState)
+  const _apolloClient = apolloClient ?? client(initialState)
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // get hydrated here
