@@ -9,9 +9,9 @@ import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 
 const About: NextPage = ({pageProps, getStaticProp}) => {
-  useEffect(() => {
-    //getUsers();
-  }, []);
+  // useEffect(() => {
+  //   //getUsers();
+  // }, []);
   // getUsers()
  // const aa = useSelector((state) => state);
    //console.log("IM AA", aa);
